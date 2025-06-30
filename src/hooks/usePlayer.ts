@@ -5,7 +5,14 @@ import { loadYouTubeAPI } from "../utils/youtube";
 import toast from "react-hot-toast";
 
 const usePlayer = () => {
-  const { isPlaying, setIsPlaying, urlList, setUrlList, currentIndex, setCurrentIndex } = usePlayerContext();
+  const {
+    isPlaying,
+    setIsPlaying,
+    urlList,
+    setUrlList,
+    currentIndex,
+    setCurrentIndex,
+  } = usePlayerContext();
   const [isLoading, setIsLoading] = useState(false);
   const [currentSong, setCurrentSong] = useState(urlList[currentIndex]);
   const [isCurrentLooped, setIsCurrentLooped] = useState(urlList.length === 1);
@@ -27,6 +34,24 @@ const usePlayer = () => {
     });
     setCurrentSong(urlList[currentIndex]);
   }, [currentIndex]);
+
+  useEffect(() => {
+    if (!currentSong || !("mediaSession" in navigator)) return;
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: currentSong.title,
+      artist: "YouTube",
+      artwork: [
+        {
+          src: `https://i.ytimg.com/vi/${currentSong.ytVideoId}/hqdefault.jpg`,
+          sizes: "512x512",
+          type: "image/jpg",
+        },
+      ],
+    });
+    navigator.mediaSession.setActionHandler("play", play);
+    navigator.mediaSession.setActionHandler("pause", pause);
+    navigator.mediaSession.setActionHandler("nexttrack", playNext);
+  }, [currentSong]);
 
   useEffect(() => {
     setIsCurrentLooped(() => {
@@ -128,8 +153,12 @@ const usePlayer = () => {
   };
 
   const rewind = () => {
-    playerRef.current?.seekTo(0);
-    playerRef.current?.playVideo();
+    if (currentSongTiming.current < 5) {
+      playPrev();
+    } else {
+      playerRef.current?.seekTo(0);
+      playerRef.current?.playVideo();
+    }
     setIsPlaying(true);
   };
 
@@ -145,7 +174,7 @@ const usePlayer = () => {
     });
   };
 
-    const playPrev = () => {
+  const playPrev = () => {
     setUrlList((prevList) => {
       const currentIndex = prevList.findIndex((item) => item.isPlaying);
       const nextIndex = (currentIndex - 1 + prevList.length) % prevList.length;

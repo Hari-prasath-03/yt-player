@@ -32,10 +32,10 @@ const PlayerSection = React.memo(() => {
   };
 
   return (
-    <section className="flex-1 flex flex-col items-center py-7 px-4">
+    <section className="flex-1 flex flex-col items-center py-7 px-3">
       <h2 className="text-2xl mb-2">{isLoading ? "Loading..." : "Music Player"}</h2>
 
-      <div className="flex-1 flex flex-col items-center overflow-auto gap-5">
+      <div className="flex-1 flex flex-col items-center gap-5">
         <img
           src={`https://img.youtube.com/vi/${currentSong.ytVideoId}/hqdefault.jpg`}
           alt={currentSong.title}
