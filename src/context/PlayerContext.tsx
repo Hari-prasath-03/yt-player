@@ -6,6 +6,8 @@ type PlayerContextType = {
   urlList: UrlElement[];
   currentUrl: string;
   isPlaying: boolean;
+  currentIndex: number;
+  setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   setUrlList: React.Dispatch<React.SetStateAction<UrlElement[]>>;
   setCurrentUrl: React.Dispatch<React.SetStateAction<string>>;
@@ -31,16 +33,20 @@ const PlayerContextProvider = ({ children }: { children: React.ReactNode }) => {
   });
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [currentUrl, setCurrentUrl] = useState<string>("");
+  const [currentIndex, setCurrentIndex] = useState(0);
+
 
   const contextValue = {
     isStepsReaded,
     urlList,
     currentUrl,
+    currentIndex,
     isPlaying,
     setUrlList,
     setCurrentUrl,
     setIsStepsReaded,
     setIsPlaying,
+    setCurrentIndex,
   };
 
   return (

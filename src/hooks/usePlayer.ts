@@ -5,8 +5,7 @@ import { loadYouTubeAPI } from "../utils/youtube";
 import toast from "react-hot-toast";
 
 const usePlayer = () => {
-  const { isPlaying, setIsPlaying, urlList, setUrlList } = usePlayerContext();
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const { isPlaying, setIsPlaying, urlList, setUrlList, currentIndex, setCurrentIndex } = usePlayerContext();
   const [isLoading, setIsLoading] = useState(false);
   const [currentSong, setCurrentSong] = useState(urlList[currentIndex]);
   const [isCurrentLooped, setIsCurrentLooped] = useState(urlList.length === 1);
@@ -46,6 +45,7 @@ const usePlayer = () => {
         if (playerRef.current) playerRef.current.destroy();
 
         playerRef.current = new (window as any).YT.Player("yt-player", {
+          host: "https://www.youtube.com",
           videoId: urlList[currentIndex].ytVideoId,
           events: {
             onReady: (e: any) => {
@@ -63,6 +63,7 @@ const usePlayer = () => {
             },
           },
           playerVars: {
+            origin: window.location.origin,
             autoplay: 0,
             controls: 0,
             loop: isCurrentLooped ? 1 : 0,
@@ -168,7 +169,6 @@ const usePlayer = () => {
     rewind,
     playPrev,
     setIsCurrentLooped,
-    setCurrentIndex,
     progress,
     isCurrentLooped,
     currentSongTiming,

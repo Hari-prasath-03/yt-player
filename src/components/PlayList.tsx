@@ -1,9 +1,8 @@
 import { usePlayerContext } from "../context/PlayerContext";
-import usePlayer from "../hooks/usePlayer";
 
 const PlayList = () => {
-  const { urlList, setUrlList, isPlaying } = usePlayerContext();
-  const { setCurrentIndex } = usePlayer();
+  const { urlList, setUrlList, isPlaying, setCurrentIndex } =
+    usePlayerContext();
 
   const handleRemove = (index: number) => {
     setUrlList((prev) => {
@@ -34,7 +33,7 @@ const PlayList = () => {
           >
             <span
               onClick={() => setCurrentIndex(index)}
-              className="hidden md:block"
+              className="hidden md:block cursor-pointer"
             >
               {title.length > 40 ? title.substring(0, 40) + "..." : title}
             </span>
