@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: var(--color-neutral-100);
+  --color-dark-bg: var(--color-neutral-900);
+
+  --color-text: var(--color-neutral-900);
+  --color-dark-text: var(--color-neutral-200);
+
+  --color-text-muted: var(--color-neutral-700);
+  --color-dark-text-muted: var(--color-neutral-400);
+
+  --font-surfer: "Original Surfer", sans-serif;
+  --font-delius: "Delius Swash Caps", cursive;
+}
+
+.color-transition {
+  @apply transition-colors duration-300 ease-in-out;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+.theme-dark-grad {
+  @apply bg-linear-to-br/srgb from-indigo-500 to-sky-400;
+}
+
+.theme-light-grad {
+  @apply bg-gradient-to-br from-indigo-400 to-sky-300;
+}
+
+.btn {
+  @apply text-white font-bold py-1.5 px-4 rounded cursor-pointer;
+}
+
+.btn-primary {
+  @apply bg-linear-to-br/srgb dark:from-indigo-500 dark:to-sky-400 from-indigo-400 to-sky-400;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  @apply w-1.5;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  @apply bg-neutral-500/25 rounded-full;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  @apply bg-transparent rounded-full;
+}
