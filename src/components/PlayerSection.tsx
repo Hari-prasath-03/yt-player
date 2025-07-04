@@ -1,4 +1,4 @@
-import { FastForward, Pause, Play, Rewind, RotateCw, SkipBack, SkipForward } from "lucide-react";
+import { Pause, Play, RotateCw, SkipBack, SkipForward } from "lucide-react";
 import usePlayer from "../hooks/usePlayer";
 import React from "react";
 import { formatTime } from "../utils/formatTime";
@@ -8,7 +8,6 @@ const PlayerSection = React.memo(() => {
     currentSong,
     isPlaying,
     playNext,
-    playPrev,
     rewind,
     togglePlay,
     progress,
@@ -71,38 +70,26 @@ const PlayerSection = React.memo(() => {
               <RotateCw className="size-3" />
             </button>
             <button
-              onClick={playPrev}
+              onClick={rewind}
               className="btn-primary p-2 rounded-full cursor-pointer mr-2"
             >
-              <SkipBack className="size-5" />
-            </button>
-            <button
-              onClick={rewind}
-              className="btn-primary p-2 rounded-full cursor-pointer"
-            >
-              <Rewind className="size-4" />
+              <SkipBack className="size-7" />
             </button>
             <button
               onClick={togglePlay}
-              className="btn-primary p-2 rounded-full cursor-pointer"
+              className="btn-primary p-3 rounded-full cursor-pointer"
             >
               {isPlaying ? (
-                <Pause className="size-8" />
+                <Pause className="size-9" />
               ) : (
-                <Play className="size-8" />
+                <Play className="size-9" />
               )}
-            </button>
-            <button
-              onClick={playPrev}
-              className="btn-primary p-2 rounded-full cursor-pointer"
-            >
-              <FastForward className="size-4" />
             </button>
             <button
               onClick={playNext}
               className="btn-primary p-2 rounded-full cursor-pointer ml-2"
             >
-              <SkipForward className="size-5" />
+              <SkipForward className="size-7" />
             </button>
           </div>
         </div>

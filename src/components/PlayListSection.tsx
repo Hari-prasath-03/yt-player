@@ -4,9 +4,10 @@ import { usePlayerContext } from "../context/PlayerContext";
 import PlayList from "./PlayList";
 import InputUrlAdder from "./InputUrlAdder";
 import Steps from "./Steps";
+import ColapseMenu from "./ColapseMenu";
 
 const PlayListSection = React.memo(() => {
-  const { isStepsReaded, setIsStepsReaded, setUrlList, urlList } =
+  const { isStepsReaded, setIsStepsReaded, setUrlList, urlList, colapseMenuId, setColapseMenuId } =
     usePlayerContext();
 
   const handleSetPlayListType = () => {
@@ -15,7 +16,7 @@ const PlayListSection = React.memo(() => {
   };
 
   return (
-    <section className="flex-1 border-l border-neutral-300 dark:border-neutral-700 px-3">
+    <section className="flex-1 border-l border-neutral-300 dark:border-neutral-700 relative px-3">
       {!isStepsReaded ? (
         <>
           <h3 className="text-center text-base md:text-lg py-5 flex flex-col items-center gap-2">
@@ -54,12 +55,18 @@ const PlayListSection = React.memo(() => {
                 <span>Clear list</span>
               </button>
             ) : (
-              <span className="mr-5"/>
+              <span className="mr-5" />
             )}
           </div>
           <InputUrlAdder />
           <PlayList />
         </>
+      )}
+      {colapseMenuId && (
+        <ColapseMenu
+          colapseMenuId={colapseMenuId}
+          setColapseMenuId={setColapseMenuId}
+        />
       )}
     </section>
   );

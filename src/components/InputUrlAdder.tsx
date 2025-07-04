@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { usePlayerContext } from "../context/PlayerContext";
 import { Plus } from "lucide-react";
 import toast from "react-hot-toast";
+import usePlayListContext from "../context/PlayListContext";
 
 interface InputUrlAdderProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -10,6 +11,7 @@ interface InputUrlAdderProps
 
 const InputUrlAdder: React.FC<InputUrlAdderProps> = () => {
   const { currentUrl, setCurrentUrl, setUrlList, urlList } = usePlayerContext();
+  const { recentlyAdded, setRecentlyAdded } = usePlayListContext();
 
   const getYouTubeVideoId = (url: string): string | null => {
     const regex = /(?:youtube\.com.*(?:\?|&)v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
@@ -39,8 +41,20 @@ const InputUrlAdder: React.FC<InputUrlAdderProps> = () => {
     const videoTitle = await fetchVideoTitle(currentUrl);
     setUrlList((prev) => [
       ...prev,
-      { ytVideoId: videoId, title: videoTitle, isPlaying: false },
+      { ytVideoId: videoId, title: videoTitle, isPlaying: false, isFavourite: false },
     ]);
+
+    const alreadyInRecentlyAdded = recentlyAdded.some(
+      (item) => item.ytVideoId === videoId
+    );
+    
+    if (!alreadyInRecentlyAdded) {
+      setRecentlyAdded((prev) => [
+        ...prev,
+        { ytVideoId: videoId, title: videoTitle, isPlaying: false, isFavourite: false },
+      ]);
+    }
+
     setCurrentUrl("");
   };
 
@@ -57,9 +71,6 @@ const InputUrlAdder: React.FC<InputUrlAdderProps> = () => {
     await handleAddUrl();
   };
 
-  useEffect(() => {
-    localStorage.setItem("urlList", JSON.stringify(urlList));
-  }, [urlList]);
 
   return (
     <div className="flex justify-center items-center px-4">
